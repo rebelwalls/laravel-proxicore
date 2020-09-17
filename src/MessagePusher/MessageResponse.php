@@ -23,4 +23,12 @@ class MessageResponse
     {
         $this->rawResponse = $rawResponse;
     }
+
+    /**
+     * @return string
+     */
+    public function getMessage(): string
+    {
+        return 'Temporary message that will be extracted from response.';
+    }
 }
