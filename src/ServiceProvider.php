@@ -2,6 +2,11 @@
 
 namespace RebelWalls\LaravelProxicore;
 
+/**
+ * Class ServiceProvider
+ *
+ * @package RebelWalls\LaravelProxicore
+ */
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
     /**

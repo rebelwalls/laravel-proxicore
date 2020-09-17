@@ -20,17 +20,38 @@ abstract class BaseMessage
     /**
      * @var array
      */
-    protected $payload;
+    private $payload;
 
     /**
      * @var string
      */
-    protected $traceableId;
+    private $traceableId;
 
     /**
      * @var string
      */
     private $origin;
+
+    /**
+     * BaseMessage constructor.
+     */
+    public function __construct()
+    {
+        $origin = config('laravel-proxicore.origin');
+        $this->setOrigin($origin);
+    }
+
+    /**
+     * @param string $origin
+     *
+     * @return $this
+     */
+    public function setOrigin(string $origin)
+    {
+        $this->origin = $origin;
+
+        return $this;
+    }
 
     /**
      * @param string $traceableId
@@ -70,6 +91,7 @@ abstract class BaseMessage
         return [
             'event' => $this->event,
             'traceableId' => $this->traceableId,
+            'origin' => $this->origin,
             'payload' => json_encode($this->payload),
         ];
     }
@@ -82,17 +104,5 @@ abstract class BaseMessage
         if (empty($this->traceableId)) {
             $this->traceableId = Str::random(12);
         }
-    }
-
-    /**
-     * @param string $origin
-     *
-     * @return $this
-     */
-    public function setOrigin(string $origin)
-    {
-        $this->origin = $origin;
-
-        return $this;
     }
 }

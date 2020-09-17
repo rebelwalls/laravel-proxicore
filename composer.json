@@ -18,7 +18,7 @@
     "php": ">=7.0",
     "laravel/framework": "^5.4",
     "fzaninotto/faker": "^1.7",
-    "ext-pdflib": "*"
+    "ext-curl": "*"
   },
   "require-dev": {
     "mockery/mockery": "^0.9.5",
