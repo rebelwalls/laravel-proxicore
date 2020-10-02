@@ -2,6 +2,7 @@
 
 namespace RebelWalls\LaravelProxicore\MessagePusher\Messages;
 
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -30,28 +31,7 @@ abstract class BaseMessage
     /**
      * @var string
      */
-    private $origin;
-
-    /**
-     * BaseMessage constructor.
-     */
-    public function __construct()
-    {
-        $origin = config('laravel-proxicore.origin');
-        $this->setOrigin($origin);
-    }
-
-    /**
-     * @param string $origin
-     *
-     * @return $this
-     */
-    public function setOrigin(string $origin)
-    {
-        $this->origin = $origin;
-
-        return $this;
-    }
+    private $version;
 
     /**
      * @param string $traceableId
@@ -89,10 +69,11 @@ abstract class BaseMessage
         }
 
         return [
-            'event' => $this->event,
-            'traceableId' => $this->traceableId,
-            'origin' => $this->origin,
-            'payload' => json_encode($this->payload),
+            'type' => $this->event,
+            'traceId' => $this->traceableId,
+            'timestamp' => Carbon::now()->toDateTimeString(),
+            'version' => '1.0',
+            'payload' => $this->payload,
         ];
     }
 

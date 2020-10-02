@@ -25,9 +25,6 @@ class MessagePusher
     public function __construct(BaseMessage $message)
     {
         $this->message = $message;
-
-        $origin = config('laravel-proxicore.origin');
-        $this->message->setOrigin($origin);
     }
 
     /**
@@ -36,6 +33,8 @@ class MessagePusher
     public function push()
     {
         $endpoint = config('laravel-proxicore.endpoint');
+        $endpoint .= 'api/pegasus/v1.0/publishevent';
+
         $response = $this->post($endpoint, $this->message->toArray());
 
         return new MessageResponse($response);
@@ -55,11 +54,11 @@ class MessagePusher
 
         $c = curl_init();
         curl_setopt($c, CURLOPT_URL, $url);
-        curl_setopt($c, CURLOPT_HTTPHEADER, ['Content-Type: multipart/formdata']);
+        curl_setopt($c, CURLOPT_POST, 1);
+        curl_setopt($c, CURLOPT_POSTFIELDS, http_build_query($payload));
         curl_setopt($c, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($c, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($c, CURLOPT_POSTFIELDS, http_build_query($payload));
 
         $response = curl_exec($c);
 
@@ -69,6 +68,6 @@ class MessagePusher
 
         curl_close($c);
 
-        return json_decode($response);
+        return $response;
     }
 }

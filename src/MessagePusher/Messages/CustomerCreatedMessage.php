@@ -3,12 +3,12 @@
 namespace RebelWalls\LaravelProxicore\MessagePusher\Messages;
 
 /**
- * Class OrderCreatedMessage
+ * Class CustomerCreatedMessage
  *
  * @package RebelWalls\LaravelProxicore\MessagePusher\Messages
  */
-class OrderCreatedMessage extends BaseMessage
+class CustomerCreatedMessage extends BaseMessage
 {
-    protected $event = 'OrderCreated';
+    protected $event = 'CustomerCreated';
     protected $version = '1.0';
 }

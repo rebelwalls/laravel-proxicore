@@ -19,7 +19,7 @@ class MessageResponse
      *
      * @param string $rawResponse
      */
-    public function __construct(string $rawResponse)
+    public function __construct($rawResponse)
     {
         $this->rawResponse = $rawResponse;
     }
