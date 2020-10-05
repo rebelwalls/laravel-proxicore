@@ -2,6 +2,8 @@
 
 namespace RebelWalls\LaravelProxicore\MessagePusher;
 
+use RebelWalls\LaravelProxicore\Api\ProxicoreApiResponse;
+
 /**
  * Class MessageResponse
  *
@@ -10,18 +12,18 @@ namespace RebelWalls\LaravelProxicore\MessagePusher;
 class MessageResponse
 {
     /**
-     * @var string $rawResponse
+     * @var ProxicoreApiResponse $response
      */
-    private $rawResponse;
+    private $response;
 
     /**
      * MessageResponse constructor.
      *
-     * @param string $rawResponse
+     * @param ProxicoreApiResponse $response
      */
-    public function __construct($rawResponse)
+    public function __construct(ProxicoreApiResponse $response)
     {
-        $this->rawResponse = $rawResponse;
+        $this->response = $response;
     }
 
     /**
