@@ -19,7 +19,17 @@ class ProxicoreApiResponse
     /**
      * @var string
      */
-    private $content;
+    private $message;
+
+    /**
+     * @var string
+     */
+    private $payload;
+
+    /**
+     * @var string
+     */
+    private $status;
 
     /**
      * ProxicoreApiResponse constructor.
@@ -38,14 +48,42 @@ class ProxicoreApiResponse
      */
     private function handle()
     {
-        $this->content = $this->rawResponse->getBody()->getContents();
+        $responseObject = json_decode($this->rawResponse->getBody()->getContents(), true);
+
+        $this->status = $responseObject['status'];
+        $this->payload = $responseObject['payload'];
+        $this->message = isset($responseObject['message']) ? $responseObject['message'] : '';
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPayload()
+    {
+        return $this->payload;
     }
 
     /**
      * @return string
      */
-    public function getContent(): string
+    public function getStatus(): string
     {
-        return $this->content;
+        return $this->status;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMessage(): string
+    {
+        return $this->message;
+    }
+
+    /**
+     * @return bool
+     */
+    public function success()
+    {
+        return $this->getStatus() === 'success';
     }
 }

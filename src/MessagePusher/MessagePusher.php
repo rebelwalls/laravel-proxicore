@@ -2,10 +2,13 @@
 
 namespace RebelWalls\LaravelProxicore\MessagePusher;
 
+use Exception;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Support\Facades\Log;
 use RebelWalls\LaravelProxicore\Api\ProxicoreException;
 use RebelWalls\LaravelProxicore\Api\ProxicoreMessageApi;
 use RebelWalls\LaravelProxicore\MessagePusher\Messages\BaseMessage;
+use Throwable;
 
 /**
  * Class MessagePusher
@@ -36,14 +39,15 @@ class MessagePusher
 
     /**
      * @return MessageResponse
-     *
-     * @throws GuzzleException
-     * @throws ProxicoreException
      */
     public function push()
     {
-        $response = $this->api->push($this->message);
+        try {
+            $response = $this->api->push($this->message);
 
-        return new MessageResponse($response);
+            return new MessageResponse($response);
+        } catch (Throwable $throwable) {
+            Log::emergency('Unable to send message to Proxicore. Message returned in Proxicore response: [' . $throwable->getMessage() . ']');
+        }
     }
 }
