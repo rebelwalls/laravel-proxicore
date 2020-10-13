@@ -26,7 +26,7 @@ abstract class BaseMessage
     /**
      * @var string
      */
-    private $traceableId;
+    private $traceId;
 
     /**
      * @var string
@@ -34,17 +34,27 @@ abstract class BaseMessage
     private $version;
 
     /**
-     * @param string $traceableId
+     * @param string $traceId
      *
      * @return $this
      */
-    public function setTraceableId(string $traceableId)
+    public function setTraceId(string $traceId)
     {
-        $this->traceableId = $traceableId;
+        $this->traceId = $traceId;
 
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getTraceId()
+    {
+        $this->ensureTraceableIdIsSet();
+
+        return $this->traceId;
+    }
+    
     /**
      * @param array $payload
      *
@@ -65,12 +75,12 @@ abstract class BaseMessage
         $this->ensureTraceableIdIsSet();
 
         if (empty($this->payload)) {
-            Log::warning('Payload for Proxicore Message [' . $this->traceableId . '] was empty.');
+            Log::warning('Payload for Proxicore Message [' . $this->traceId . '] was empty.', ['traceId' => $this->traceId]);
         }
 
         return [
             'type' => $this->event,
-            'traceId' => $this->traceableId,
+            'traceId' => $this->traceId,
             'timestamp' => Carbon::now()->toDateTimeString(),
             'version' => '1.0',
             'payload' => $this->payload,
@@ -82,8 +92,8 @@ abstract class BaseMessage
      */
     private function ensureTraceableIdIsSet()
     {
-        if (empty($this->traceableId)) {
-            $this->traceableId = Str::random(12);
+        if (empty($this->traceId)) {
+            $this->traceId = Str::random(12);
         }
     }
 }

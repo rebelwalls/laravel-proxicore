@@ -9,6 +9,13 @@ use GuzzleHttp\Psr7\Response;
 use function GuzzleHttp\Psr7\stream_for;
 use stdClass;
 
+/**
+ * Class ProxicoreApi
+ *
+ * @package RebelWalls\LaravelProxicore\Api
+ *
+ * @property Client $client
+ */
 abstract class ProxicoreApi
 {
     /**
