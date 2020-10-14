@@ -2,7 +2,7 @@
 
 namespace RebelWalls\LaravelProxicore\Api;
 
-use RebelWalls\LaravelProxicore\MessagePusher\Messages\BaseMessage;
+use RebelWalls\LaravelProxicore\MessagePusher\BaseMessage;
 
 /**
  * Class ProxicoreMessageApi
@@ -28,7 +28,7 @@ class ProxicoreMessageApi extends ProxicoreApi
      */
     public function push(BaseMessage $message)
     {
-        info('Pushing Proxicore Api call to [' . $this->endpoint . '] with payload: ' . json_encode($message->toArray(), JSON_PRETTY_PRINT), ['traceId' => $message->getTraceId()]);
+//        info('Pushing Proxicore Api call to [' . $this->endpoint . '] with payload: ' . json_encode($message->toArray(), JSON_PRETTY_PRINT), ['traceId' => $message->getTraceId()]);
 
         return $this->call('POST', $this->endpoint, null, $message->toArray());
     }
