@@ -1,6 +1,6 @@
 <?php
 
-namespace RebelWalls\LaravelProxicore\MessagePusher\Messages;
+namespace RebelWalls\LaravelProxicore\MessagePusher;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;

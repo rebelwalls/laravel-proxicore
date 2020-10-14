@@ -35,6 +35,8 @@ class ProxicoreApiResponse
      * ProxicoreApiResponse constructor.
      *
      * @param Response $response
+     *
+     * @throws ProxicoreException
      */
     public function __construct(Response $response)
     {
@@ -45,10 +47,16 @@ class ProxicoreApiResponse
 
     /**
      * Handle response
+     *
+     * @throws ProxicoreException
      */
     private function handle()
     {
         $responseObject = json_decode($this->rawResponse->getBody()->getContents(), true);
+
+        if (!array_key_exists('status', $responseObject) || !array_key_exists('payload', $responseObject)) {
+            throw new ProxicoreException('Response from Proxicore did not contain needed information.');
+        }
 
         $this->status = $responseObject['status'];
         $this->payload = $responseObject['payload'];

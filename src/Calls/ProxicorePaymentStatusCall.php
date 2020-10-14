@@ -1,16 +1,17 @@
 <?php
 
-namespace RebelWalls\LaravelProxicore\Api;
+namespace RebelWalls\LaravelProxicore\Calls;
 
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Log;
+use RebelWalls\LaravelProxicore\Api\ProxicoreException;
 
 /**
  * Class ProxicoreMessageApi
  *
  * @package App\Integrations\Fortnox\Api
  */
-class ProxicorePaymentStatusApi extends ProxicoreApi
+class ProxicorePaymentStatusCall extends ProxicoreBaseCall
 {
     /**
      * Api endpoint
