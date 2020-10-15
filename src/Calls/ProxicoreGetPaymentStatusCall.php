@@ -11,7 +11,7 @@ use RebelWalls\LaravelProxicore\Api\ProxicoreException;
  *
  * @package App\Integrations\Fortnox\Api
  */
-class ProxicorePaymentStatusCall extends ProxicoreBaseCall
+class ProxicoreGetPaymentStatusCall extends ProxicoreBaseCall
 {
     /**
      * Api endpoint
