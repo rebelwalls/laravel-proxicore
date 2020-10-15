@@ -27,7 +27,7 @@ class ProxicoreGetPaymentStatusCall extends ProxicoreBaseCall
      * @throws ProxicoreException
      * @throws GuzzleException
      */
-    public function getPaymentStatus(string $customerNo)
+    public function getCustomer(string $customerNo)
     {
         $proxicoreResponse = $this->call('GET', $this->endpoint, ['No' => $customerNo]);
 
