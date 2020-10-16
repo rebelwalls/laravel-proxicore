@@ -1,5 +1,6 @@
 <?php
 
 return [
-    'origin' => null
+    'origin' => env('PROXICORE_ORIGIN'),
+    'endpoint' => env('PROXICORE_ENDPOINT')
 ];
