@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response;
+use Illuminate\Support\Facades\Log;
 use function GuzzleHttp\Psr7\stream_for;
 use stdClass;
 
@@ -36,7 +37,7 @@ abstract class ProxicoreApi
      *
      * @param $method
      * @param $endpoint
-     * @param null $params
+     * @param null $parameters
      * @param null $payload
      *
      * @return mixed|stdClass
@@ -44,10 +45,10 @@ abstract class ProxicoreApi
      * @throws ProxicoreException
      * @throws GuzzleException
      */
-    protected function call($method, $endpoint, $params = null, $payload = null)
+    protected function call($method, $endpoint, $parameters = null, $payload = null)
     {
         try {
-            $uri = $this->createUri($endpoint, $params);
+            $uri = $this->createUri($endpoint, $parameters);
             $options['headers'] = $this->createHeaders();
 
             if ($payload) {
@@ -55,8 +56,11 @@ abstract class ProxicoreApi
             }
 
             $response = $this->client->request($method, $uri, $options);
+            $responseObject = $this->handleResponse($response);
 
-            return $this->handleResponse($response);
+            $this->handleLog($responseObject, $parameters, $method, $endpoint);
+
+            return $responseObject;
         } catch (ClientException $exception) {
             throw new ProxicoreException($exception);
         }
@@ -97,14 +101,44 @@ abstract class ProxicoreApi
     }
 
     /**
-     * Converts an API respons to a return object depending on content type
+     * Converts an API response to a return object depending on content type
      *
      * @param Response $response
      *
      * @return ProxicoreApiResponse
+     * @throws ProxicoreException
      */
-    private function handleResponse(Response $response)
+    private function handleResponse(Response $response): ProxicoreApiResponse
     {
         return new ProxicoreApiResponse($response);
+    }
+
+    /**
+     * @param ProxicoreApiResponse $responseObject
+     * @param array $parameters
+     * @param string $method
+     * @param string $endpoint
+     */
+    protected function handleLog(ProxicoreApiResponse $responseObject, array $parameters, string $method, string $endpoint): void
+    {
+        $parameterString = collect($parameters)
+            ->transform(function ($value, $key) {
+                return $key . ' => ' . $value;
+            })
+            ->implode(', ');
+
+        $contextString = 'Method: [' . $method . '] Endpoint: [' . $endpoint . '] Parameters: [' . $parameterString . ']';
+
+        switch ($responseObject->getStatus()) {
+            case 'failure':
+                Log::error('Got a failure response from Proxicore. ' . $contextString);
+                Log::error('Message received: [' . $responseObject->getMessage() . ']');
+                break;
+            case 'error':
+            default:
+                Log::emergency('Got an error response from Proxicore [' . $contextString . ']');
+                Log::emergency('Message received: [' . $responseObject->getMessage() . ']');
+                break;
+        }
     }
 }

@@ -3,7 +3,7 @@
 namespace RebelWalls\LaravelProxicore\Calls;
 
 use GuzzleHttp\Exception\GuzzleException;
-use Illuminate\Support\Facades\Log;
+use RebelWalls\LaravelProxicore\Api\ProxicoreApiResponse;
 use RebelWalls\LaravelProxicore\Api\ProxicoreException;
 
 /**
@@ -14,41 +14,20 @@ use RebelWalls\LaravelProxicore\Api\ProxicoreException;
 class ProxicoreGetPaymentStatusCall extends ProxicoreBaseCall
 {
     /**
-     * Api endpoint
-     * @var
+     * @var string
      */
-    protected $endpoint = 'api/pegasus/v1.0/businesscentral/getpaymentstatus';
+    protected $endpointTarget = 'getpaymentstatus';
 
     /**
      * @param string $customerNo
      *
-     * @return mixed
+     * @return ProxicoreApiResponse
      *
      * @throws ProxicoreException
      * @throws GuzzleException
      */
-    public function getCustomer(string $customerNo)
+    public function getPaymentStatus(string $customerNo): ProxicoreApiResponse
     {
-        $proxicoreResponse = $this->call('GET', $this->endpoint, ['No' => $customerNo]);
-
-        switch ($proxicoreResponse->getStatus()) {
-            case 'success':
-                return $proxicoreResponse->getPayload();
-            case 'failure':
-                Log::error('Failed to retrieve payment status for customer [' . $customerNo . ']');
-                Log::error('Message revieved: [' . $proxicoreResponse->getMessage() . ']');
-            case 'error':
-            default:
-                Log::emergency('Error when trying to retrieve payment status for customer [' . $customerNo . ']');
-                Log::emergency('Message revieved: [' . $proxicoreResponse->getMessage() . ']');
-        }
-
-        // If we get to this point, there has either been a failure
-        // or an error. This has been logged, return null values for frontend to handle.
-        return [
-            'UnpaidSum' => null,
-            'OverdueSum' => null,
-            'OverdueDays' => null,
-        ];
+        return $this->call('GET', $this->endpoint, ['No' => $customerNo]);
     }
 }
