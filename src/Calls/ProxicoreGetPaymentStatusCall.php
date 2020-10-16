@@ -14,9 +14,14 @@ use RebelWalls\LaravelProxicore\Api\ProxicoreException;
 class ProxicoreGetPaymentStatusCall extends ProxicoreBaseCall
 {
     /**
-     * @var string
+     * ProxicoreGetPaymentStatusCall constructor.
      */
-    protected $endpointTarget = 'getpaymentstatus';
+    public function __construct()
+    {
+        $this->endpoint = $this->resolveEndpoint('getpaymentstatus');
+
+        parent::__construct();
+    }
 
     /**
      * @param string $customerNo
@@ -28,6 +33,6 @@ class ProxicoreGetPaymentStatusCall extends ProxicoreBaseCall
      */
     public function getPaymentStatus(string $customerNo): ProxicoreApiResponse
     {
-        return $this->call('GET', $this->endpoint, ['No' => $customerNo]);
+        return $this->call('GET', $this->endpoint, ['no' => $customerNo]);
     }
 }

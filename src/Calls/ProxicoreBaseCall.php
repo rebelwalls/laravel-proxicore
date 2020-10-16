@@ -24,12 +24,12 @@ abstract class ProxicoreBaseCall extends ProxicoreApi
     protected $endpoint;
 
     /**
-     * ProxicoreBaseCall constructor.
+     * @param string $endpointTarget
+     *
+     * @return string
      */
-    public function __construct()
+    protected function resolveEndpoint(string $endpointTarget): string
     {
-        $this->endpoint = 'api/' . config('laravel-proxicore.origin') . '/v1.0/businesscentral/' . $this->endpointTarget;
-
-        parent::__construct();
+        return 'api/' . config('laravel-proxicore.origin') . '/v1.0/businesscentral/' . $endpointTarget;
     }
 }
