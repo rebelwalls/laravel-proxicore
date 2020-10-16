@@ -43,7 +43,6 @@ abstract class ProxicoreApi
      * @return mixed|stdClass
      *
      * @throws ProxicoreException
-     * @throws GuzzleException
      */
     protected function call($method, $endpoint, $parameters = null, $payload = null)
     {
@@ -62,9 +61,44 @@ abstract class ProxicoreApi
 
             return $responseObject;
         } catch (ClientException $exception) {
-            throw new ProxicoreException($exception);
+            throw new ProxicoreException($exception->getMessage());
+        } catch (GuzzleException $exception) {
+            throw new ProxicoreException($exception->getMessage());
         }
     }
+
+    /**
+     * @param string $endpoint
+     * @param null $parameters
+     * @param null $payload
+     *
+     * @return ProxicoreApiResponse
+     *
+     * @throws ProxicoreException
+     */
+    protected function get(string $endpoint, $parameters = null, $payload = null): ProxicoreApiResponse
+    {
+        return $this->call('GET', $endpoint, $parameters, $payload);
+    }
+
+    /**
+     * @param string $endpoint
+     * @param null $parameters
+     * @param null $payload
+     *
+     * @return ProxicoreApiResponse
+     *
+     * @throws ProxicoreException
+     */
+    protected function post(string $endpoint, $parameters = null, $payload = null): ProxicoreApiResponse
+    {
+        return $this->call('POST', $endpoint, $parameters, $payload);
+    }
+
+    /**
+     * @var string
+     */
+    protected $endpoint;
 
     /**
      * Compiles the API uri with the endpoint and optional parameters
@@ -72,11 +106,18 @@ abstract class ProxicoreApi
      * @param $endpoint
      * @param null $params
      *
-     * @return mixed|string
+     * @return string
      */
     private function createUri($endpoint, $params = null)
     {
-        $uri = concat_uri(config('laravel-proxicore.endpoint'), $endpoint);
+        $uri = concat_uri(
+            config('laravel-proxicore.endpoint'),
+            'api',
+            config('laravel-proxicore.origin'),
+            'v1.0',
+            'businesscentral',
+            $endpoint
+        );
 
         if ($params) {
             $uri .= '/?' . http_build_query($params);
