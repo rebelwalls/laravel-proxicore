@@ -44,7 +44,7 @@ abstract class ProxicoreApi
      *
      * @throws ProxicoreException
      */
-    protected function call($method, $endpoint, $parameters = null, $payload = null)
+    protected function call($method, $endpoint, $parameters = [], $payload = null)
     {
         try {
             $uri = $this->createUri($endpoint, $parameters);
