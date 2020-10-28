@@ -16,7 +16,7 @@ class ProxicoreMessageApi extends ProxicoreApi
     /**
      * Api endpoint
      */
-    protected $endpoint = 'api/pegasus/v1.0/';
+    protected $endpoint = 'publishevent';
 
     /**
      * @param BaseMessage $message

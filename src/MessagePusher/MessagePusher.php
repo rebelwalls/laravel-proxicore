@@ -2,12 +2,8 @@
 
 namespace RebelWalls\LaravelProxicore\MessagePusher;
 
-use Exception;
-use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Log;
-use RebelWalls\LaravelProxicore\Api\ProxicoreException;
 use RebelWalls\LaravelProxicore\Api\ProxicoreMessageApi;
-use RebelWalls\LaravelProxicore\MessagePusher\Messages\BaseMessage;
 use Throwable;
 
 /**

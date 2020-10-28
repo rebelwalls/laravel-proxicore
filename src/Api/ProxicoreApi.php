@@ -115,7 +115,6 @@ abstract class ProxicoreApi
             'api',
             config('laravel-proxicore.origin'),
             'v1.0',
-            'businesscentral',
             $endpoint
         );
 
