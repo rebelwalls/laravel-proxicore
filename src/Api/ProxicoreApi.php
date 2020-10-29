@@ -37,7 +37,7 @@ abstract class ProxicoreApi
      *
      * @param $method
      * @param $endpoint
-     * @param null $parameters
+     * @param array $parameters
      * @param null $payload
      *
      * @return mixed|stdClass
@@ -69,28 +69,28 @@ abstract class ProxicoreApi
 
     /**
      * @param string $endpoint
-     * @param null $parameters
+     * @param array $parameters
      * @param null $payload
      *
      * @return ProxicoreApiResponse
      *
      * @throws ProxicoreException
      */
-    protected function get(string $endpoint, $parameters = null, $payload = null): ProxicoreApiResponse
+    protected function get(string $endpoint, $parameters = [], $payload = null): ProxicoreApiResponse
     {
         return $this->call('GET', $endpoint, $parameters, $payload);
     }
 
     /**
      * @param string $endpoint
-     * @param null $parameters
+     * @param array $parameters
      * @param null $payload
      *
      * @return ProxicoreApiResponse
      *
      * @throws ProxicoreException
      */
-    protected function post(string $endpoint, $parameters = null, $payload = null): ProxicoreApiResponse
+    protected function post(string $endpoint, $parameters = [], $payload = null): ProxicoreApiResponse
     {
         return $this->call('POST', $endpoint, $parameters, $payload);
     }

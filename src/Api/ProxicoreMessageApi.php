@@ -30,6 +30,6 @@ class ProxicoreMessageApi extends ProxicoreApi
     {
 //        info('Pushing Proxicore Api call to [' . $this->endpoint . '] with payload: ' . json_encode($message->toArray(), JSON_PRETTY_PRINT), ['traceId' => $message->getTraceId()]);
 
-        return $this->call('POST', $this->endpoint, null, $message->toArray());
+        return $this->post($this->endpoint, [], $message->toArray());
     }
 }
