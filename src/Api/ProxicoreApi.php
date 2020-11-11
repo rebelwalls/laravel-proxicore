@@ -170,6 +170,10 @@ abstract class ProxicoreApi
         $contextString = 'Method: [' . $method . '] Endpoint: [' . $endpoint . '] Parameters: [' . $parameterString . ']';
 
         switch ($responseObject->getStatus()) {
+            case 'success':
+                info('Got a success response from Proxicore. ' . $contextString);
+                info('Message received: [' . $responseObject->getMessage() . ']');
+                break;
             case 'failure':
                 Log::error('Got a failure response from Proxicore. ' . $contextString);
                 Log::error('Message received: [' . $responseObject->getMessage() . ']');
