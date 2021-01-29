@@ -161,28 +161,32 @@ abstract class ProxicoreApi
      */
     protected function handleLog(ProxicoreApiResponse $responseObject, array $parameters, string $method, string $endpoint): void
     {
-        $parameterString = collect($parameters)
-            ->transform(function ($value, $key) {
-                return $key . ' => ' . $value;
-            })
-            ->implode(', ');
+        try {
+            $parameterString = collect($parameters)
+                ->transform(function ($value, $key) {
+                    return $key . ' => ' . $value;
+                })
+                ->implode(', ');
 
-        $contextString = 'Method: [' . $method . '] Endpoint: [' . $endpoint . '] Parameters: [' . $parameterString . ']';
+            $contextString = 'Method: [' . $method . '] Endpoint: [' . $endpoint . '] Parameters: [' . $parameterString . ']';
 
-        switch ($responseObject->getStatus()) {
-            case 'success':
-                info('Got a success response from Proxicore. ' . $contextString);
-                info('Message received: [' . $responseObject->getMessage() . ']');
-                break;
-            case 'failure':
-                Log::error('Got a failure response from Proxicore. ' . $contextString);
-                Log::error('Message received: [' . $responseObject->getMessage() . ']');
-                break;
-            case 'error':
-            default:
-                Log::emergency('Got an error response from Proxicore [' . $contextString . ']');
-                Log::emergency('Message received: [' . $responseObject->getMessage() . ']');
-                break;
+            switch ($responseObject->getStatus()) {
+                case 'success':
+                    info('Got a success response from Proxicore. ' . $contextString);
+                    info('Message received: [' . $responseObject->getMessage() . ']');
+                    break;
+                case 'failure':
+                    Log::error('Got a failure response from Proxicore. ' . $contextString);
+                    Log::error('Message received: [' . $responseObject->getMessage() . ']');
+                    break;
+                case 'error':
+                default:
+                    Log::emergency('Got an error response from Proxicore [' . $contextString . ']');
+                    Log::emergency('Message received: [' . $responseObject->getMessage() . ']');
+                    break;
+            }
+        } catch (Exception $exception) {
+            Log::warning('Error parsing log message from Proxicore: ' . $endpoint);
         }
     }
 }
