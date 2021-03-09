@@ -173,17 +173,17 @@ abstract class ProxicoreApi
 
             switch ($responseObject->getStatus()) {
                 case 'success':
-                    info('Got a success response from Proxicore. ' . $contextString);
-                    info('Message received: [' . $responseObject->getMessage() . ']');
+                    Log::debug('Got a success response from Proxicore. ' . $contextString);
+                    Log::debug('Message received: [' . $responseObject->getMessage() . ']');
                     break;
                 case 'failure':
-                    Log::error('Got a failure response from Proxicore. ' . $contextString);
-                    Log::error('Message received: [' . $responseObject->getMessage() . ']');
+                    Log::debug('Got a failure response from Proxicore. ' . $contextString);
+                    Log::debug('Message received: [' . $responseObject->getMessage() . ']');
                     break;
                 case 'error':
                 default:
-                    Log::emergency('Got an error response from Proxicore [' . $contextString . ']');
-                    Log::emergency('Message received: [' . $responseObject->getMessage() . ']');
+                    Log::error('Got an error response from Proxicore [' . $contextString . ']');
+                    Log::error('Message received: [' . $responseObject->getMessage() . ']');
                     break;
             }
         } catch (Exception $exception) {
