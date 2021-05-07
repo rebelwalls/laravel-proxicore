@@ -4,13 +4,12 @@ namespace RebelWalls\LaravelProxicore\Api;
 
 use Exception;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response;
+use Illuminate\Http\Client\RequestException;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use stdClass;
-
-use function GuzzleHttp\Psr7\stream_for;
 
 /**
  * Class ProxicoreApi
@@ -21,19 +20,6 @@ use function GuzzleHttp\Psr7\stream_for;
  */
 abstract class ProxicoreApi
 {
-    /**
-     * @var Client
-     */
-    private $client;
-
-    /**
-     * ProxicoreApi constructor.
-     */
-    public function __construct()
-    {
-        $this->client = new Client();
-    }
-
     /**
      * Responsible for making the final API call
      *
@@ -50,21 +36,38 @@ abstract class ProxicoreApi
     {
         try {
             $uri = $this->createUri($endpoint, $parameters);
-            $options['headers'] = $this->createHeaders();
+            $request = Http::withHeaders($this->createHeaders());
+            $payload = Arr::wrap($payload);
 
-            if ($payload) {
-                $options['body'] = stream_for(json_encode($payload));
+            switch (strtolower($method)) {
+                case 'post':
+                    $response = $request->post($uri, $payload);
+                    break;
+                case 'get':
+                    $response = $request->get($uri, $payload);
+                    break;
+                case 'put':
+                    $response = $request->put($uri, $payload);
+                    break;
+                case 'patch':
+                    $response = $request->patch($uri, $payload);
+                    break;
+                case 'delete':
+                    $response = $request->delete($uri, $payload);
+                    break;
+                default:
+                    throw new ProxicoreException("HTTP method `$method` is not supported");
             }
 
-            $response = $this->client->request($method, $uri, $options);
-            $responseObject = $this->handleResponse($response);
+            if ($response->failed()) {
+                $response->throw();
+            }
+            $responseObject = $this->handleResponse($response->toPsrResponse());
 
             $this->handleLog($responseObject, $parameters, $method, $endpoint);
 
             return $responseObject;
-        } catch (ClientException $exception) {
-            throw new ProxicoreException($exception->getMessage());
-        } catch (GuzzleException $exception) {
+        } catch (RequestException $exception) {
             throw new ProxicoreException($exception->getMessage());
         }
     }
@@ -137,7 +140,6 @@ abstract class ProxicoreApi
         return [
 //            'Access-Token' => // Add Access-Token,
 //            'Client-Secret' => // Add Client-Secret,
-            'Content-Type' => 'application/json',
             'Accept' => 'application/json',
         ];
     }

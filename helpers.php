@@ -7,11 +7,11 @@ if (! function_exists('concat_uri')) {
      * Manages prefix and trailing slashes
      * Output ex. http://volumes/hello
      *
-     * @param string ...$paths
+     * @param null|string ...$paths
      *
      * @return string
      */
-    function concat_uri(string ...$paths)
+    function concat_uri(?string ...$paths)
     {
         return concat_uri_array($paths);
     }
