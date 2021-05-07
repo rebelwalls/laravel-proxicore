@@ -54,7 +54,7 @@ abstract class BaseMessage
 
         return $this->traceId;
     }
-    
+
     /**
      * @param array $payload
      *
@@ -75,7 +75,13 @@ abstract class BaseMessage
         $this->ensureTraceableIdIsSet();
 
         if (empty($this->payload)) {
-            Log::warning('Payload for Proxicore Message [' . $this->traceId . '] was empty.', ['traceId' => $this->traceId]);
+            Log::warning(
+                sprintf(
+                    'Payload for Proxicore Message [%s] was empty.',
+                    $this->traceId
+                ),
+                ['traceId' => $this->traceId]
+            );
         }
 
         return [
@@ -89,6 +95,8 @@ abstract class BaseMessage
 
     /**
      * If a traceable id is not set, create a backup traceable id.
+     *
+     * @return void
      */
     private function ensureTraceableIdIsSet()
     {

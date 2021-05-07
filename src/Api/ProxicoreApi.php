@@ -8,8 +8,9 @@ use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Facades\Log;
-use function GuzzleHttp\Psr7\stream_for;
 use stdClass;
+
+use function GuzzleHttp\Psr7\stream_for;
 
 /**
  * Class ProxicoreApi
@@ -36,8 +37,8 @@ abstract class ProxicoreApi
     /**
      * Responsible for making the final API call
      *
-     * @param $method
-     * @param $endpoint
+     * @param string $method
+     * @param string $endpoint
      * @param array $parameters
      * @param null $payload
      *
@@ -45,7 +46,7 @@ abstract class ProxicoreApi
      *
      * @throws ProxicoreException
      */
-    protected function call($method, $endpoint, $parameters = [], $payload = null)
+    protected function call(string $method, string $endpoint, $parameters = [], $payload = null)
     {
         try {
             $uri = $this->createUri($endpoint, $parameters);
@@ -99,17 +100,17 @@ abstract class ProxicoreApi
     /**
      * @var string
      */
-    protected $endpoint;
+    protected string $endpoint;
 
     /**
      * Compiles the API uri with the endpoint and optional parameters
      *
-     * @param $endpoint
+     * @param string $endpoint
      * @param null $params
      *
      * @return string
      */
-    private function createUri($endpoint, $params = null)
+    private function createUri(string $endpoint, $params = null)
     {
         $uri = concat_uri(
             config('laravel-proxicore.endpoint'),
@@ -159,9 +160,15 @@ abstract class ProxicoreApi
      * @param array $parameters
      * @param string $method
      * @param string $endpoint
+     *
+     * @return void
      */
-    protected function handleLog(ProxicoreApiResponse $responseObject, array $parameters, string $method, string $endpoint): void
-    {
+    protected function handleLog(
+        ProxicoreApiResponse $responseObject,
+        array $parameters,
+        string $method,
+        string $endpoint
+    ): void {
         try {
             $parameterString = collect($parameters)
                 ->transform(function ($value, $key) {
@@ -169,7 +176,7 @@ abstract class ProxicoreApi
                 })
                 ->implode(', ');
 
-            $contextString = 'Method: [' . $method . '] Endpoint: [' . $endpoint . '] Parameters: [' . $parameterString . ']';
+            $contextString = "Method: [$method] Endpoint: [$endpoint] Parameters: [$parameterString]";
 
             switch ($responseObject->getStatus()) {
                 case 'success':

@@ -43,7 +43,12 @@ class MessagePusher
 
             return new MessageResponse($response);
         } catch (Throwable $throwable) {
-            Log::emergency('Unable to send message to Proxicore. Message returned in Proxicore response: [' . $throwable->getMessage() . ']');
+            Log::emergency(
+                sprintf(
+                    'Unable to send message to Proxicore. Message returned in Proxicore response: [%s]',
+                    $throwable->getMessage()
+                )
+            );
         }
     }
 }

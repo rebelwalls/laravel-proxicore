@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace RebelWalls\LaravelProxicore\Api;
 
 use RebelWalls\LaravelProxicore\MessagePusher\BaseMessage;
@@ -13,10 +15,8 @@ use RebelWalls\LaravelProxicore\MessagePusher\BaseMessage;
  */
 class ProxicoreMessageApi extends ProxicoreApi
 {
-    /**
-     * Api endpoint
-     */
-    protected $endpoint = 'publishevent';
+    /** @var string Api endpoint */
+    protected string $endpoint = 'publishevent';
 
     /**
      * @param BaseMessage $message
@@ -28,8 +28,6 @@ class ProxicoreMessageApi extends ProxicoreApi
      */
     public function push(BaseMessage $message)
     {
-//        info('Pushing Proxicore Api call to [' . $this->endpoint . '] with payload: ' . json_encode($message->toArray(), JSON_PRETTY_PRINT), ['traceId' => $message->getTraceId()]);
-
         return $this->post($this->endpoint, [], $message->toArray());
     }
 }

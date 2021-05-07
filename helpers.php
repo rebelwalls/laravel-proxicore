@@ -11,24 +11,29 @@ if (! function_exists('concat_uri')) {
      *
      * @return string
      */
-    function concat_uri(...$paths)
+    function concat_uri(string ...$paths)
     {
         return concat_uri_array($paths);
     }
 }
 
 if (! function_exists('concat_uri_array')) {
+    /**
+     * @param array $paths
+     *
+     * @return false|mixed|string
+     */
     function concat_uri_array(array $paths)
     {
         $SEPARATOR = '/';
         $result = '';
 
         foreach ($paths as $path) {
-            while(substr($path, -1) == $SEPARATOR) { // remove all trailing slashes
+            while (substr($path, -1) == $SEPARATOR) { // remove all trailing slashes
                 $path = substr($path, 0, -1);
             }
 
-            while(substr($path, 0,1) == $SEPARATOR) { // remove all prefix slashes
+            while (substr($path, 0, 1) == $SEPARATOR) { // remove all prefix slashes
                 $path = substr($path, 1);
             }
 

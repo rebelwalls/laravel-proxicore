@@ -17,7 +17,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/laravel-proxicore.php', 'laravel-proxicore'
+            __DIR__ . '/../config/laravel-proxicore.php',
+            'laravel-proxicore'
         );
     }
 
