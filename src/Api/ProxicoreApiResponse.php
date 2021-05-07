@@ -49,6 +49,8 @@ class ProxicoreApiResponse
      * Handle response
      *
      * @throws ProxicoreException
+     *
+     * @return void
      */
     private function handle()
     {

@@ -11,13 +11,18 @@ if (! function_exists('concat_uri')) {
      *
      * @return string
      */
-    function concat_uri(...$paths)
+    function concat_uri(string ...$paths)
     {
         return concat_uri_array($paths);
     }
 }
 
 if (! function_exists('concat_uri_array')) {
+    /**
+     * @param array $paths
+     *
+     * @return false|mixed|string
+     */
     function concat_uri_array(array $paths)
     {
         $SEPARATOR = '/';

@@ -95,6 +95,8 @@ abstract class BaseMessage
 
     /**
      * If a traceable id is not set, create a backup traceable id.
+     *
+     * @return void
      */
     private function ensureTraceableIdIsSet()
     {

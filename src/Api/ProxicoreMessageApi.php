@@ -15,9 +15,7 @@ use RebelWalls\LaravelProxicore\MessagePusher\BaseMessage;
  */
 class ProxicoreMessageApi extends ProxicoreApi
 {
-    /**
-     * Api endpoint
-     */
+    /** @var string Api endpoint */
     protected string $endpoint = 'publishevent';
 
     /**
