@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace RebelWalls\LaravelProxicore\Tests;
 
-class AAASmokeTest extends TestCase
+use PHPUnit\Framework\TestCase as PhpUnitTestCase;
+
+class AAASmokeTest extends PhpUnitTestCase
 {
     public const MIN_PHP_VERSION = '7.4.0';
 
