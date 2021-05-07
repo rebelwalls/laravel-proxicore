@@ -6,7 +6,7 @@
         "laravel",
         "proxicore"
     ],
-    "license": "MIT",
+    "license": "proprietary",
     "authors": [
         {
             "name": "Edward Karlsson",
@@ -15,17 +15,21 @@
         {
             "name": "Daniel Nordström",
             "email": "daniel@rebelwalls.com"
+        },
+        {
+            "name": "Attila Fülöp",
+            "email": "attila@artkonekt.com"
         }
     ],
     "require": {
-        "php": ">=7.0",
-        "laravel/framework": "^5.4|^6.0|^7.0|^8.0",
+        "php": "^7.4|^8.0",
+        "laravel/framework": "^8.12",
         "guzzlehttp/guzzle": "^6.5.5|^7.0.1",
         "ext-curl": "*"
     },
     "require-dev": {
         "mockery/mockery": "^0.9.5",
-        "phpunit/phpunit": "^7.0"
+        "phpunit/phpunit": "^9.0"
     },
     "autoload": {
         "psr-4": {
