@@ -44,7 +44,7 @@ abstract class ProxicoreApi
                     $response = $request->post($uri, $payload);
                     break;
                 case 'get':
-                    $response = $request->get($uri, $payload);
+                    $response = $request->get($uri, $parameters);
                     break;
                 case 'put':
                     $response = $request->put($uri, $payload);
