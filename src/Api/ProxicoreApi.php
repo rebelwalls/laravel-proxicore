@@ -101,7 +101,7 @@ abstract class ProxicoreApi
     /**
      * @var string
      */
-    protected $endpoint;
+    protected string $endpoint;
 
     /**
      * Compiles the API uri with the endpoint and optional parameters
@@ -162,8 +162,12 @@ abstract class ProxicoreApi
      * @param string $method
      * @param string $endpoint
      */
-    protected function handleLog(ProxicoreApiResponse $responseObject, array $parameters, string $method, string $endpoint): void
-    {
+    protected function handleLog(
+        ProxicoreApiResponse $responseObject,
+        array $parameters,
+        string $method,
+        string $endpoint
+    ): void {
         try {
             $parameterString = collect($parameters)
                 ->transform(function ($value, $key) {
@@ -171,7 +175,7 @@ abstract class ProxicoreApi
                 })
                 ->implode(', ');
 
-            $contextString = 'Method: [' . $method . '] Endpoint: [' . $endpoint . '] Parameters: [' . $parameterString . ']';
+            $contextString = "Method: [$method] Endpoint: [$endpoint] Parameters: [$parameterString]";
 
             switch ($responseObject->getStatus()) {
                 case 'success':
