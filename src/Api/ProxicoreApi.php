@@ -8,7 +8,9 @@ use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Facades\Log;
+
 use function GuzzleHttp\Psr7\stream_for;
+
 use stdClass;
 
 /**

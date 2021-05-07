@@ -2,7 +2,6 @@
 
 namespace RebelWalls\LaravelProxicore\Calls;
 
-use GuzzleHttp\Exception\GuzzleException;
 use RebelWalls\LaravelProxicore\Api\ProxicoreApiResponse;
 use RebelWalls\LaravelProxicore\Api\ProxicoreException;
 

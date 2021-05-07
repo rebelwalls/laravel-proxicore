@@ -54,7 +54,7 @@ abstract class BaseMessage
 
         return $this->traceId;
     }
-    
+
     /**
      * @param array $payload
      *

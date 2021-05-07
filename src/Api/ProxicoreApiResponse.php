@@ -88,7 +88,7 @@ class ProxicoreApiResponse
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function success()
     {
