@@ -1,5 +1,10 @@
 # Gimmersta Proxicore Package Changelog
 
+## 1.0.1
+##### 2021-05-07
+
+- Fixed params truncated issue with `GET` requests
+
 ## 1.0.0
 ##### 2021-05-07
 
